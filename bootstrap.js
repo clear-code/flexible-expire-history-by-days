@@ -48,9 +48,14 @@ const PREF_BRANCH = "extensions.bonardonet.expire-history-by-days.";
 const DAYS_PREF = PREF_BRANCH + "days";
 const DISABLE_EXPIRATION_PREF = PREF_BRANCH + "disable_expiration";
 const MIRROR_PREF = PREF_BRANCH + "max_pages_mirror";
+const FREQUENCY_PREF = PREF_BRANCH + "frequency";
 
 // Expire after 3 minutes of idle.
 const IDLE_SECONDS = 180;
+
+const FREQUENCY_EVERY_IDLE = 0;
+const FREQUENCY_DAILY = 1;
+const FREQUENCY_SESSION = 2;
 
 ////////////////////////////////////////////////////////////////////////////////
 //// Globals.
@@ -66,7 +71,16 @@ let observer = {
   observe: function (aSubject, aTopic, aData) {
     switch (aTopic) {
       case "idle":
-        this.expire();
+        let frequency = Services.prefs.getIntPref(FREQUENCY_PREF, FREQUENCY_EVERY_IDLE);
+        if (frequency == FREQUENCY_EVERY_IDLE ||
+            (frequency == FREQUENCY_SESSION && !this.expired)) {
+          this.expire();
+        }
+        break;
+      case "idle-daily":
+        if (Services.prefs.getIntPref(FREQUENCY_PREF, FREQUENCY_EVERY_IDLE) == FREQUENCY_DAILY) {
+          this.expire();
+        }
         break;
       case "nsPref:changed":
         let disableExpiration = false;
@@ -96,8 +110,11 @@ let observer = {
       end.setMinutes(0);
       end.setSeconds(0);
       PlacesUtils.history.removeVisitsByTimeframe(0, (end.getTime() * 1000));
+      this.expired = true;
     }
   },
+
+  expired: false,
 
   QueryInterface: XPCOMUtils.generateQI([
     Ci.nsIObserver
@@ -113,6 +130,7 @@ function startup({id}, reason) AddonManager.getAddonByID(id, function(addon)
                     getService(Ci.nsIIdleService);
   idleService.addIdleObserver(observer, IDLE_SECONDS);
   Services.prefs.addObserver(DISABLE_EXPIRATION_PREF, observer, false);
+  observer.expired = false;
 });
 
 function shutdown({id}, reason) AddonManager.getAddonByID(id, function (addon)
