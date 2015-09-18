@@ -4,7 +4,7 @@
 
         <!-- Add-on -->
         <id>flexible-expire-history-by-days@clear-code.com</id>
-        <version>1.1.1-signed</version>
+        <version>1.0</version>
         <type>2</type>
         <bootstrap>true</bootstrap>
 
@@ -12,7 +12,7 @@
         <name>Flexible Expire History by Days</name>
         <creator>Marco Bonardo</creator>
         <developer>ClearCode Inc.</developer>
-        <description>Allows to expire history older than a fixed amount of days.</description>
+        <description>Allows to expire history older than a fixed amount of days. (based on Expire history days 1.1.1)</description>
 
         <!-- Firefox -->
         <targetApplication>
