@@ -46,10 +46,10 @@
   <setting pref="extensions.bonardonet.expire-history-by-days.frequency"
            type="radio"
            title="Frequency of expiration">
-    <radiogroup>
+    <radiogroup orient="vertical">
       <radio value="0" label="On every idle time"/>
       <radio value="1" label="On the first idle time per a day"/>
-      <radio value="2" label="On the initial idle time per a session (don't do next expiration until Firefox is restarted)"/>
+      <radio value="2" label="On the initial idle time per a session"/>
     </radiogroup>
   </setting>
 </vbox>
