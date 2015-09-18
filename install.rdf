@@ -3,14 +3,15 @@
   <r:Description about="urn:mozilla:install-manifest">
 
         <!-- Add-on -->
-        <id>expire-history-by-days@bonardo.net</id>
+        <id>flexible-expire-history-by-days@bonardo.net</id>
         <version>1.1.1-signed</version>
         <type>2</type>
         <bootstrap>true</bootstrap>
 
         <!-- About -->
-        <name>Expire history by days</name>
+        <name>Flexible Expire History by Days</name>
         <creator>Marco Bonardo</creator>
+        <developer>ClearCode Inc.</developer>
         <description>Allows to expire history older than a fixed amount of days.</description>
 
         <!-- Firefox -->
