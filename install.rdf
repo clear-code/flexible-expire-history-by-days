@@ -3,7 +3,7 @@
   <r:Description about="urn:mozilla:install-manifest">
 
         <!-- Add-on -->
-        <id>flexible-expire-history-by-days@bonardo.net</id>
+        <id>flexible-expire-history-by-days@clear-code.com</id>
         <version>1.1.1-signed</version>
         <type>2</type>
         <bootstrap>true</bootstrap>
