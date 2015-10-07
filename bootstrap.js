@@ -129,6 +129,7 @@ function startup({id}, reason) AddonManager.getAddonByID(id, function(addon)
   let idleService = Cc["@mozilla.org/widget/idleservice;1"].
                     getService(Ci.nsIIdleService);
   idleService.addIdleObserver(observer, IDLE_SECONDS);
+  Services.obs.addObserver(observer, 'idle-daily', false);
   Services.prefs.addObserver(DISABLE_EXPIRATION_PREF, observer, false);
   observer.expired = false;
 });
@@ -138,6 +139,7 @@ function shutdown({id}, reason) AddonManager.getAddonByID(id, function (addon)
   let idleService = Cc["@mozilla.org/widget/idleservice;1"].
                     getService(Ci.nsIIdleService);
   idleService.removeIdleObserver(observer, IDLE_SECONDS);
+  Services.obs.removeObserver(observer, 'idle-daily');
   Services.prefs.removeObserver(DISABLE_EXPIRATION_PREF, observer);
 });
 
