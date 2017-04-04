@@ -113,8 +113,8 @@ let observer = {
         // Firefox 51 and later
         // (after https://bugzilla.mozilla.org/show_bug.cgi?id=1261313 )
         PlacesUtils.history.removeVisitsByFilter({
-          beginDate: 0,
-          endDate:   end.getTime() * 1000
+          beginDate: new Date(0),
+          endDate:   end
         });
       }
       else if (typeof PlacesUtils.history.removeVisitsByTimeframe === 'function') {
