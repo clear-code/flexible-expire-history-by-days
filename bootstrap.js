@@ -109,7 +109,21 @@ let observer = {
       end.setHours(0);
       end.setMinutes(0);
       end.setSeconds(0);
-      PlacesUtils.history.removeVisitsByTimeframe(0, (end.getTime() * 1000));
+      if ('removeVisitsByFilter' in PlacesUtils.history) {
+        // Firefox 51 and later
+        // (after https://bugzilla.mozilla.org/show_bug.cgi?id=1261313 )
+        PlacesUtils.history.removeVisitsByFilter({
+          beginDate: 0,
+          endDate:   end.getTime() * 1000
+        });
+      }
+      else if ('removeVisitsByTimeframe' in PlacesUtils.history) {
+        // Firefox 50 and older
+        PlacesUtils.history.removeVisitsByTimeframe(0, (end.getTime() * 1000));
+      }
+      else {
+        throw new Error('PlacesUtils.history has no method to expire history by days!');
+      }
       this.expired = true;
     }
   },
