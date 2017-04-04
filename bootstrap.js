@@ -109,7 +109,7 @@ let observer = {
       end.setHours(0);
       end.setMinutes(0);
       end.setSeconds(0);
-      if ('removeVisitsByFilter' in PlacesUtils.history) {
+      if (typeof PlacesUtils.history.removeVisitsByFilter === 'function') {
         // Firefox 51 and later
         // (after https://bugzilla.mozilla.org/show_bug.cgi?id=1261313 )
         PlacesUtils.history.removeVisitsByFilter({
@@ -117,7 +117,7 @@ let observer = {
           endDate:   end.getTime() * 1000
         });
       }
-      else if ('removeVisitsByTimeframe' in PlacesUtils.history) {
+      else if (typeof PlacesUtils.history.removeVisitsByTimeframe === 'function') {
         // Firefox 50 and older
         PlacesUtils.history.removeVisitsByTimeframe(0, (end.getTime() * 1000));
       }
