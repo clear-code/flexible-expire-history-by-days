@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Expire History By Days",
+  "name": "Flexible Expire History By Days",
   "version": "1.3.1",
   "description": "Allows to expire history older than a fixed amount of days.",
 
@@ -17,5 +17,12 @@
   "options_ui": {
     "browser_style": true,
     "page": "options.html"
+  },
+
+  "applications": {
+    "gecko": {
+      "id": "flexible-expire-history-by-days@clear-code.com",
+      "strict_min_version": "52.0"
+    }
   }
 }
