@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+  </head>
+
+  <body>
+    <form>
+      <fieldset>
+        <legend>Options</legend>
+        <p>
+          Expire visits older than these days (0: default browser expiration)
+          <input id="days" type="number" min="0" max="180">
+        </p>
+      </fieldset>
+    </form>
+
+    <fieldset>
+      <legend>Expert and Scary Options</legend>
+      <p>
+        Differently from the previous version of this add-on, this version cannot disable expiration.
+      </p>
+      <p>
+        Disabling expiration is something to be done with extreme care, since the browser expiration
+        algorithm has been built to provide the best performance.<br>
+        <span style="font-weight: bold; color: red">Disabling Expiration can cause performance issues</span>, especially in the location bar, and it's normally unnecessary.<br>
+        If you really need a slow but infinite history, you can open about:config and create a new integer pref named <i>places.history.expiration.max_pages</i> with a value of <i>999999</i>.<br>
+        You can then setup your own expiration limit through this add-on.
+      </p>
+    </fieldset>
+    <script src="options.js"></script>
+  </body>
+
+</html>
