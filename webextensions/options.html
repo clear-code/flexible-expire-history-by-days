@@ -13,7 +13,14 @@
           Expire visits older than these days (0: default browser expiration)
           <input id="days" type="number" min="0" max="180">
         </p>
-      </fieldset>
+        <p>
+          Frequency of expiration:
+          <select id="frequency">
+            <option value="0">On every idle time</option>
+            <option value="1">On the first idle time per a day</option>
+            <option value="2">On the initial idle time per a session</option>
+          </select>
+        </p>
     </form>
 
     <fieldset>
