@@ -14,11 +14,41 @@ browser.storage.local.get("days").then(({ days = -1 } = {}) => {
   }
 });
 
+const FREQUENCY_EVERY_IDLE = 0;
+const FREQUENCY_DAILY      = 1;
+const FREQUENCY_SESSION    = 2;
+
+const ONE_DAY_IN_MSEC = 1000 * 60 * 60 * 24;
+
+let gExpiredOnThisSession = false;
+let lastExpired           = 0;
+
 browser.idle.setDetectionInterval(180); // 3 minutes.
-browser.idle.onStateChanged.addListener(idleState => {
+browser.idle.onStateChanged.addListener(async (idleState) => {
   if (!["idle", "locked"].includes(idleState)) {
     return;
   }
+
+  const configs = await browser.storage.local.get({
+    frequency: FREQUENCY_EVERY_IDLE,
+    lastExpired
+  });
+  switch (configs.frequency) {
+    default:
+    case FREQUENCY_EVERY_IDLE:
+      break;
+
+    case FREQUENCY_SESSION:
+      if (gExpiredOnThisSession)
+        return;
+      break;
+
+    case FREQUENCY_DAILY:
+      if (Date.now() - configs.lastExpired < ONE_DAY_IN_MSEC)
+        return;
+      break;
+  }
+
   browser.storage.local.get("days").then(({ days = 0 } = {}) => {
     if (days) {
       let endTime = new Date();
@@ -28,6 +58,8 @@ browser.idle.onStateChanged.addListener(idleState => {
       endTime.setMilliseconds(0);
       endTime.setDate(endTime.getDate() - days);
       browser.history.deleteRange({ startTime: 0, endTime });
+      gExpiredOnThisSession = true;
+      browser.storage.local.set({ lastExpired: Date.now() });
     }
   });
 });
