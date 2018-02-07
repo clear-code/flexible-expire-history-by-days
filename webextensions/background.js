@@ -31,23 +31,37 @@ browser.idle.onStateChanged.addListener(async (idleState) => {
 
   const configs = await browser.storage.local.get({
     frequency: FREQUENCY_EVERY_IDLE,
+    logging:   false,
     lastExpired
   });
+
+  if (configs.logging)
+    console.log('Handle idle event, configs = ', configs);
+
   switch (configs.frequency) {
     default:
     case FREQUENCY_EVERY_IDLE:
       break;
 
     case FREQUENCY_SESSION:
-      if (gExpiredOnThisSession)
+      if (gExpiredOnThisSession) {
+        if (configs.logging)
+          console.log('History is already expired on this session');
         return;
+      }
       break;
 
     case FREQUENCY_DAILY:
-      if (Date.now() - configs.lastExpired < ONE_DAY_IN_MSEC)
+      if (Date.now() - configs.lastExpired < ONE_DAY_IN_MSEC) {
+        if (configs.logging)
+          console.log('History is already expired in 24 hours');
         return;
+      }
       break;
   }
+
+  if (configs.logging)
+    console.log('Ready to expire history');
 
   browser.storage.local.get("days").then(({ days = 0 } = {}) => {
     if (days) {
@@ -60,6 +74,8 @@ browser.idle.onStateChanged.addListener(async (idleState) => {
       browser.history.deleteRange({ startTime: 0, endTime });
       gExpiredOnThisSession = true;
       browser.storage.local.set({ lastExpired: Date.now() });
+      if (configs.logging)
+        console.log('History is expired');
     }
   });
 });
