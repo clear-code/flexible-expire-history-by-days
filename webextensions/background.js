@@ -63,7 +63,7 @@ browser.idle.onStateChanged.addListener(async (idleState) => {
   if (configs.logging)
     console.log('Ready to expire history');
 
-  browser.storage.local.get("days").then(({ days = 0 } = {}) => {
+  browser.storage.local.get("days").then(({ days = 1 } = {}) => {
     if (days) {
       let endTime = new Date();
       endTime.setHours(0);
