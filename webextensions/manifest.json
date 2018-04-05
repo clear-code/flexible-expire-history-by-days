@@ -12,7 +12,11 @@
   "permissions": [ "idle", "history", "storage" ],
 
   "background": {
-    "scripts": [ "background.js" ]
+    "scripts": [
+      "common/Configs.js",
+      "common/common.js",
+      "background.js"
+    ]
   },
   "options_ui": {
     "browser_style": true,
